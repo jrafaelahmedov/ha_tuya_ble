@@ -41,6 +41,7 @@ class TuyaCountry:
 # Tuya data center regions (country name, API country code, endpoint)
 # See: https://github.com/tuya/tuya-home-assistant/wiki/Countries-Regions-and-Tuya-Data-Center
 TUYA_COUNTRIES: tuple[TuyaCountry, ...] = (
+    TuyaCountry("Azerbaijan", "994", "https://openapi.tuyaeu.com"),
     TuyaCountry("United States", "1", "https://openapi.tuyaus.com"),
     TuyaCountry("Canada", "1", "https://openapi.tuyaus.com"),
     TuyaCountry("Mexico", "52", "https://openapi.tuyaus.com"),
