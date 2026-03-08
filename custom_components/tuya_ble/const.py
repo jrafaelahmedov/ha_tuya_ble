@@ -38,6 +38,29 @@ class TuyaCountry:
     endpoint: str
 
 
+# Map HA config country (ISO 3166-1 alpha-2) to Tuya country name (no blocking I/O)
+DEFAULT_COUNTRY_ALPHA2_TO_NAME: dict[str, str] = {
+    "AZ": "Azerbaijan",
+    "US": "United States",
+    "CA": "Canada",
+    "MX": "Mexico",
+    "BR": "Brazil",
+    "JP": "Japan",
+    "KR": "South Korea",
+    "AU": "Australia",
+    "GB": "United Kingdom",
+    "DE": "Germany",
+    "FR": "France",
+    "ES": "Spain",
+    "IT": "Italy",
+    "NL": "Netherlands",
+    "PL": "Poland",
+    "RU": "Russia",
+    "TR": "Turkey",
+    "IN": "India",
+    "CN": "China",
+}
+
 # Tuya data center regions (country name, API country code, endpoint)
 # See: https://github.com/tuya/tuya-home-assistant/wiki/Countries-Regions-and-Tuya-Data-Center
 TUYA_COUNTRIES: tuple[TuyaCountry, ...] = (

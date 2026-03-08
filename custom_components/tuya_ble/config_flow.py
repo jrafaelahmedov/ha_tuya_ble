@@ -30,6 +30,7 @@ from .const import (
     CONF_ENDPOINT,
     CONF_PASSWORD,
     CONF_USERNAME,
+    DEFAULT_COUNTRY_ALPHA2_TO_NAME,
     DOMAIN,
     SMARTLIFE_APP,
     TUYA_COUNTRIES,
@@ -106,14 +107,9 @@ def _show_login_form(
                 user_input[CONF_COUNTRY_CODE] = country.name
                 break
 
-    def_country_name: str | None = None
-    try:
-        import pycountry
-        def_country = pycountry.countries.get(alpha_2=flow.hass.config.country)
-        if def_country:
-            def_country_name = def_country.name
-    except Exception:
-        pass
+    # Use static map to avoid blocking event loop (pycountry does sync file I/O)
+    alpha2 = (flow.hass.config.country or "").upper()
+    def_country_name = DEFAULT_COUNTRY_ALPHA2_TO_NAME.get(alpha2)
 
     return flow.async_show_form(
         step_id="login",
