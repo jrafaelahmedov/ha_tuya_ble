@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from homeassistant.backports.enum import StrEnum
+
 from typing_extensions import Final
 
 DOMAIN: Final = "tuya_ble"
