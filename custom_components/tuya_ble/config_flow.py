@@ -3,20 +3,18 @@
 from __future__ import annotations
 
 import logging
-import pycountry
 from typing import Any
 
 import voluptuous as vol
 from tuya_iot import AuthType
 
+from home_assistant_bluetooth import BluetoothServiceInfoBleak
+
+from homeassistant.components.bluetooth import async_discovered_service_info
 from homeassistant.config_entries import (
     ConfigEntry,
     ConfigFlow,
     OptionsFlowWithConfigEntry,
-)
-from homeassistant.components.bluetooth import (
-    BluetoothServiceInfoBleak,
-    async_discovered_service_info,
 )
 from homeassistant.const import CONF_ADDRESS
 from homeassistant.core import callback
@@ -111,10 +109,11 @@ def _show_login_form(
 
     def_country_name: str | None = None
     try:
+        import pycountry
         def_country = pycountry.countries.get(alpha_2=flow.hass.config.country)
         if def_country:
             def_country_name = def_country.name
-    except:
+    except Exception:
         pass
 
     return flow.async_show_form(
