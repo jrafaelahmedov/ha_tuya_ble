@@ -10,7 +10,6 @@ from tuya_iot import AuthType
 
 from home_assistant_bluetooth import BluetoothServiceInfoBleak
 
-from homeassistant.components.bluetooth import async_discovered_service_info
 from homeassistant.config_entries import (
     ConfigEntry,
     ConfigFlow,
@@ -306,6 +305,9 @@ class TuyaBLEConfigFlow(ConfigFlow, domain=DOMAIN):
         if discovery := self._discovery_info:
             self._discovered_devices[discovery.address] = discovery
         else:
+            from homeassistant.components.bluetooth import (
+                async_discovered_service_info,
+            )
             current_addresses = self._async_current_ids()
             for discovery in async_discovered_service_info(self.hass):
                 if (
