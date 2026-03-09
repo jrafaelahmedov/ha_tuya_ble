@@ -10,6 +10,27 @@ from typing_extensions import Final
 
 DOMAIN: Final = "tuya_ble"
 
+# Tuya cloud auth constants (local copy for HA 2024+ compatibility; core Tuya const was refactored)
+CONF_ACCESS_ID: Final = "access_id"
+CONF_ACCESS_SECRET: Final = "access_secret"
+CONF_APP_TYPE: Final = "app_type"
+CONF_AUTH_TYPE: Final = "auth_type"
+CONF_COUNTRY_CODE: Final = "country_code"
+CONF_ENDPOINT: Final = "endpoint"
+CONF_PASSWORD: Final = "password"
+CONF_USERNAME: Final = "username"
+
+TUYA_RESPONSE_CODE: Final = "code"
+TUYA_RESPONSE_MSG: Final = "msg"
+TUYA_RESPONSE_RESULT: Final = "result"
+TUYA_RESPONSE_SUCCESS: Final = "success"
+
+TUYA_SMART_APP: Final = "tuya"
+SMARTLIFE_APP: Final = "smartlife"
+
+# Built-in Tuya integration domain (for reading existing config entries)
+TUYA_DOMAIN: Final = "tuya"
+
 DEVICE_METADATA_UUIDS: Final = "uuids"
 
 DEVICE_DEF_MANUFACTURER: Final = "Tuya"
@@ -25,30 +46,9 @@ CONF_PRODUCT_NAME: Final = "product_name"
 CONF_FUNCTIONS: Final = "functions"
 CONF_STATUS_RANGE: Final = "status_range"
 
-CONF_AUTH_TYPE: Final = "auth_type"
 CONF_PROJECT_TYPE: Final = "tuya_project_type"
-CONF_ENDPOINT: Final = "endpoint"
-CONF_ACCESS_ID: Final = "access_id"
-CONF_ACCESS_SECRET: Final = "access_secret"
-CONF_APP_TYPE: Final = "tuya_app_type"
-TUYA_RESPONSE_CODE: Final = "code"
-TUYA_RESPONSE_RESULT: Final = "result"
-TUYA_RESPONSE_MSG: Final = "msg"
-TUYA_RESPONSE_SUCCESS: Final = "success"
+CONF_APP_TYPE_TUYA: Final = "tuya_app_type"
 TUYA_RESPONSE_PLATFORM_URL: Final = "platform_url"
-
-TUYA_DOMAIN: Final = "tuya"
-
-TUYA_SMART_APP: Final = "tuyaSmart"
-SMARTLIFE_APP: Final = "smartlife"
-
-CONF_AUTH_TYPE = "auth_type"
-CONF_PROJECT_TYPE = "tuya_project_type"
-CONF_ENDPOINT = "endpoint"
-CONF_ACCESS_ID = "access_id"
-CONF_ACCESS_SECRET = "access_secret"
-SMARTLIFE_APP = "smartlife"
-TUYA_SMART_APP = "tuyaSmart"
 
 TUYA_API_DEVICES_URL: Final = "/v1.0/users/%s/devices"
 # Factory info endpoint was changed by Tuya: older docs used
@@ -339,6 +339,29 @@ TUYA_COUNTRIES = [
     Country("Zambia", "260", TuyaCloudOpenAPIEndpoint.EUROPE),
     Country("Zimbabwe", "263", TuyaCloudOpenAPIEndpoint.EUROPE),
 ]
+
+# Map HA config country (ISO 3166-1 alpha-2) to Tuya country name (no blocking I/O)
+DEFAULT_COUNTRY_ALPHA2_TO_NAME: dict[str, str] = {
+    "AZ": "Azerbaijan",
+    "US": "United States",
+    "CA": "Canada",
+    "MX": "Mexico",
+    "BR": "Brazil",
+    "JP": "Japan",
+    "KR": "South Korea",
+    "AU": "Australia",
+    "GB": "United Kingdom",
+    "DE": "Germany",
+    "FR": "France",
+    "ES": "Spain",
+    "IT": "Italy",
+    "NL": "Netherlands",
+    "PL": "Poland",
+    "RU": "Russia",
+    "TR": "Turkey",
+    "IN": "India",
+    "CN": "China",
+}
 
 
 class DPType(StrEnum):
@@ -637,3 +660,4 @@ class DPCode(StrEnum):
     WIRELESS_ELECTRICITY = "wireless_electricity"
     WORK_MODE = "work_mode"  # Working mode
     WORK_POWER = "work_power"
+

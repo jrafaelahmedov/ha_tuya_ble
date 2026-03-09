@@ -13,6 +13,7 @@
   "documentation": "https://github.com/ha_tuya_ble/ha_tuya_ble",
   "iot_class": "local_push",
   "issue_tracker": "https://github.com/ha-tuya-ble/ha_tuya_ble/issues",
-  "requirements": ["tuya-iot-py-sdk==0.6.6", "pycountry>23.0.0"],
+  "requirements": ["tuya-iot-py-sdk==0.6.6"],
   "version": "0.3.1"
 }
+

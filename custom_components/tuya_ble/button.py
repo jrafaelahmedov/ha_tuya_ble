@@ -139,6 +139,7 @@ mapping: dict[str, TuyaBLECategoryButtonMapping] = {
                     "bnt7wajf",
                     "rvdceqjh",
                     "5xhbk964",
+                    "4ctjfrzq",
                 ],  # Fingerbot
                 [
                     TuyaBLEFingerbotModeMapping(dp_id=2),

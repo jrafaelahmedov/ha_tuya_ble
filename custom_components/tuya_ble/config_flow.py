@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import logging
-import pycountry
 from typing import Any
 
 import voluptuous as vol
@@ -42,6 +41,7 @@ from .const import (
     CONF_AUTH_TYPE,
     CONF_ENDPOINT,
     DOMAIN,
+    DEFAULT_COUNTRY_ALPHA2_TO_NAME,
 )
 from .devices import TuyaBLEData, get_device_readable_name
 from .cloud import HASSTuyaBLEDeviceManager
@@ -111,13 +111,9 @@ def _show_login_form(
                 user_input[CONF_COUNTRY_CODE] = country.name
                 break
 
-    def_country_name: str | None = None
-    try:
-        def_country = pycountry.countries.get(alpha_2=flow.hass.config.country)
-        if def_country:
-            def_country_name = def_country.name
-    except:
-        pass
+    # Use static map to avoid blocking event loop (pycountry does sync file I/O)
+    alpha2 = (flow.hass.config.country or "").upper()
+    def_country_name = DEFAULT_COUNTRY_ALPHA2_TO_NAME.get(alpha2)
 
     placeholders["url"] = "https://www.home-assistant.io/integrations/tuya/"
 
@@ -311,6 +307,9 @@ class TuyaBLEConfigFlow(ConfigFlow, domain=DOMAIN):
         if discovery := self._discovery_info:
             self._discovered_devices[discovery.address] = discovery
         else:
+            from homeassistant.components.bluetooth import (
+                async_discovered_service_info,
+            )
             current_addresses = self._async_current_ids()
             for discovery in async_discovered_service_info(self.hass):
                 if (

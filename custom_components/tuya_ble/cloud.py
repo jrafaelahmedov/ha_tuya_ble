@@ -36,12 +36,13 @@ from .const import (
     CONF_AUTH_TYPE,
     CONF_ENDPOINT,
     CONF_PRODUCT_MODEL,
+    CONF_PRODUCT_NAME,
+    CONF_USERNAME,
     CONF_UUID,
     CONF_LOCAL_KEY,
     CONF_CATEGORY,
     CONF_PRODUCT_ID,
     CONF_DEVICE_NAME,
-    CONF_PRODUCT_NAME,
     CONF_FUNCTIONS,
     CONF_STATUS_RANGE,
     DOMAIN,
@@ -276,7 +277,7 @@ class HASSTuyaBLEDeviceManager(AbstaractTuyaBLEDeviceManager):
         """Get credentials of the Tuya BLE device."""
         global _cache
         item: TuyaCloudCacheItem | None = None
-        credentials: dict[str, any] | None = None
+        credentials: dict[str, Any] | None = None
         result: TuyaBLEDeviceCredentials | None = None
 
         if not force_update and self._has_credentials(self._data):
@@ -326,3 +327,4 @@ class HASSTuyaBLEDeviceManager(AbstaractTuyaBLEDeviceManager):
     @property
     def data(self) -> dict[str, Any]:
         return self._data
+

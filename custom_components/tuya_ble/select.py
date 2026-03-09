@@ -362,6 +362,7 @@ mapping: dict[str, TuyaBLECategorySelectMapping] = {
                     "bnt7wajf",
                     "rvdceqjh",
                     "5xhbk964",
+                    "4ctjfrzq",
                 ],  # Fingerbot
                 [
                     TuyaBLEFingerbotModeMapping(dp_id=8),
@@ -485,3 +486,4 @@ async def async_setup_entry(
                 )
             )
     async_add_entities(entities)
+
