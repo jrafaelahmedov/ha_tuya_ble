@@ -8,36 +8,40 @@ from typing import Any
 import voluptuous as vol
 from tuya_iot import AuthType
 
-from home_assistant_bluetooth import BluetoothServiceInfoBleak
-
 from homeassistant.config_entries import (
     ConfigEntry,
     ConfigFlow,
     OptionsFlowWithConfigEntry,
 )
-from homeassistant.const import CONF_ADDRESS
+from homeassistant.components.bluetooth import (
+    BluetoothServiceInfoBleak,
+    async_discovered_service_info,
+)
+from homeassistant.const import (
+    CONF_ADDRESS,
+    CONF_COUNTRY_CODE,
+    CONF_PASSWORD,
+    CONF_USERNAME,
+)
 from homeassistant.core import callback
 from homeassistant.data_entry_flow import FlowHandler, FlowResult
 
 from .tuya_ble import SERVICE_UUID, TuyaBLEDeviceCredentials
 
 from .const import (
+    TUYA_COUNTRIES,
+    TUYA_SMART_APP,
+    SMARTLIFE_APP,
+    TUYA_RESPONSE_SUCCESS,
+    TUYA_RESPONSE_CODE,
+    TUYA_RESPONSE_MSG,
     CONF_ACCESS_ID,
     CONF_ACCESS_SECRET,
     CONF_APP_TYPE,
     CONF_AUTH_TYPE,
-    CONF_COUNTRY_CODE,
     CONF_ENDPOINT,
-    CONF_PASSWORD,
-    CONF_USERNAME,
-    DEFAULT_COUNTRY_ALPHA2_TO_NAME,
     DOMAIN,
-    SMARTLIFE_APP,
-    TUYA_COUNTRIES,
-    TUYA_RESPONSE_CODE,
-    TUYA_RESPONSE_MSG,
-    TUYA_RESPONSE_SUCCESS,
-    TUYA_SMART_APP,
+    DEFAULT_COUNTRY_ALPHA2_TO_NAME,
 )
 from .devices import TuyaBLEData, get_device_readable_name
 from .cloud import HASSTuyaBLEDeviceManager
@@ -110,6 +114,8 @@ def _show_login_form(
     # Use static map to avoid blocking event loop (pycountry does sync file I/O)
     alpha2 = (flow.hass.config.country or "").upper()
     def_country_name = DEFAULT_COUNTRY_ALPHA2_TO_NAME.get(alpha2)
+
+    placeholders["url"] = "https://www.home-assistant.io/integrations/tuya/"
 
     return flow.async_show_form(
         step_id="login",
@@ -185,8 +191,8 @@ class TuyaBLEOptionsFlow(OptionsFlowWithConfigEntry):
                             title=self.config_entry.title,
                             data=entry.manager.data,
                         )
-                    else:
-                        errors["base"] = "device_not_registered"
+
+                    errors["base"] = "device_not_registered"
 
         if user_input is None:
             user_input = {}
