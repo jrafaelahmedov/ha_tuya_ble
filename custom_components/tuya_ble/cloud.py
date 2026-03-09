@@ -185,10 +185,11 @@ class HASSTuyaBLEDeviceManager(AbstaractTuyaBLEDeviceManager):
                     if fi_response_result and len(fi_response_result) > 0:
                         factory_info = fi_response_result[0]
                         if factory_info and (TUYA_FACTORY_INFO_MAC in factory_info):
-                            mac = ":".join(
-                                factory_info[TUYA_FACTORY_INFO_MAC][i : i + 2]
-                                for i in range(0, 12, 2)
-                            ).upper()
+                            # Tuya now returns MAC as colon-separated string already
+                            # (e.g. "AA:BB:CC:DD:EE:FF"), so use it directly instead
+                            # of rebuilding from a hex string to avoid malformed
+                            # addresses like "AA::B:C::DD::E:F:".
+                            mac = factory_info[TUYA_FACTORY_INFO_MAC].upper()
                             item.credentials[mac] = {
                                 CONF_ADDRESS: mac,
                                 CONF_UUID: device.get("uuid"),
